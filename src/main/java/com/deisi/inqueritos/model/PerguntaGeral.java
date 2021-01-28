@@ -10,17 +10,17 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "pergunta_Geral")
-public class Pergunta_Geral {
-    
+public class PerguntaGeral {
+    @GeneratedValue ( strategy = GenerationType.AUTO)
     @Column(name="id", unique = true)
-    private String id;
+    private Long id;
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
     @Id
-    public String getId() {
+    public Long getId() {
         return id;
     }
 

@@ -5,18 +5,19 @@ import javax.persistence.*;
 import java.math.BigInteger;
 import java.util.Date;
 
-@Entity(name = "resposta")
+@Entity
+@Table (name = "resposta")
 public class Resposta {
 
     @Column(name = "id", unique = true)
     @GeneratedValue ( strategy = GenerationType.AUTO)
-    private BigInteger id;
+    private Long id;
 
-    public void setId(BigInteger id) {
+    public void setId(Long id) {
         this.id = id;
     }
     @Id
-    private BigInteger getId() {
+    private Long getId() {
         return id;
     }
 
@@ -31,7 +32,7 @@ public class Resposta {
         return entrada;
     }
 
-    @Column(name = "ano")
+  @Column(name = "ano")
     private Date ano;
     public void setAno (Date ano) {
         this.ano = ano;
@@ -41,7 +42,7 @@ public class Resposta {
         return ano;
     }
 
-    @Column(name = "semestre", length = 1)
+  @Column(name = "semestre", length = 1)
     private String semestre;
 
     public void setSemestre (String semestre) {
