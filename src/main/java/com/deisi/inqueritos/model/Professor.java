@@ -10,6 +10,7 @@ import java.math.BigInteger;
 public class Professor {
     @Column(name = "id", unique = true)
     @GeneratedValue ( strategy = GenerationType.AUTO)
+    @Id
     private Long id;
     @Column(name = "id_lusofona", unique = true)
     private Long id_lusofona;
@@ -18,22 +19,22 @@ public class Professor {
     @Column(name = "email", unique = true)
     private String email;
 
+
     public Professor() {
     }
 
-    public Professor(Long id_lusofona, String nome, String email) {
+    public Professor(Long id_lusofona, String nome, String email, String tipo) {
         this.id_lusofona = id_lusofona;
         this.nome = nome;
         this.email = email;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Id
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getId_lusofona() {
@@ -58,5 +59,15 @@ public class Professor {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "Professor{" +
+                "id=" + id +
+                ", id_lusofona=" + id_lusofona +
+                ", nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

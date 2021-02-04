@@ -40,7 +40,6 @@ public class Disciplina {
     public Long getId() {
         return id;
     }
-
     public Date getAno() {
         return ano;
     }
