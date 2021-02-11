@@ -18,8 +18,8 @@ public class Disciplina {
     @Column(name = "nome")
     private String nome;
 
-    @Column(name = "ano")
-    private Date ano;
+    @Column(name = "ano", length = 4)
+    private int ano;
 
     @Column(name = "semestre", length = 1)
     private String semestre;
@@ -40,11 +40,11 @@ public class Disciplina {
     public Long getId() {
         return id;
     }
-    public Date getAno() {
+    public int getAno() {
         return ano;
     }
 
-    public void setAno(Date ano) {
+    public void setAno(int ano) {
         this.ano = ano;
     }
 

@@ -84,15 +84,15 @@ public class teste1 {
         });
     }
 
-    @PostConstruct
-    public void testando() {
+   /* @PostConstruct
+   /* public void testando() {
      //   List<CsvSeedDTO> csvSeedDTOS = csvConverter("C:\\Users\\marce\\Documentos\\deisi_tabela.csv");
         ProfessorRepository repo = context.getBean(ProfessorRepository.class);
         Professor professor = new Professor();
-        professor.setId(001L);
+        //professor.setId(001L);
         professor.setEmail("email@.com");
-        professor.setId_lusofona(829L);
+        //professor.setId_lusofona(829L);
         professor.setNome("Kagimura");
         repo.save(professor);
-    }
+    }*/
 }

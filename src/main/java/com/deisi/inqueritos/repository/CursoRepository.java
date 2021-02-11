@@ -1,13 +1,10 @@
 package com.deisi.inqueritos.repository;
 
-import com.deisi.inqueritos.model.Professor;
+import com.deisi.inqueritos.model.Curso;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-
 @Repository
-public interface ProfessorRepository extends JpaRepository<Professor, Long> {
-
-
+public interface CursoRepository extends JpaRepository<Curso, Long> {
 }

@@ -13,7 +13,7 @@ public class Professor {
     @Id
     private Long id;
     @Column(name = "id_lusofona", unique = true)
-    private Long id_lusofona;
+    private String id_lusofona;
     @Column(name = "nome")
     private String nome;
     @Column(name = "email", unique = true)
@@ -23,7 +23,7 @@ public class Professor {
     public Professor() {
     }
 
-    public Professor(Long id_lusofona, String nome, String email, String tipo) {
+    public Professor(String id_lusofona, String nome, String email, String tipo) {
         this.id_lusofona = id_lusofona;
         this.nome = nome;
         this.email = email;
@@ -37,11 +37,11 @@ public class Professor {
         this.id = id;
     }
 
-    public Long getId_lusofona() {
+    public String getId_lusofona() {
         return id_lusofona;
     }
 
-    public void setId_lusofona(Long id_lusofona) {
+    public void setId_lusofona(String id_lusofona) {
         this.id_lusofona = id_lusofona;
     }
 
