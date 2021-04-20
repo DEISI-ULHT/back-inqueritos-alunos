@@ -16,7 +16,7 @@ public class Professor {
     private String id_lusofona;
     @Column(name = "nome")
     private String nome;
-    @Column(name = "email", unique = true)
+    @Column(name = "email", unique = false)
     private String email;
 
 

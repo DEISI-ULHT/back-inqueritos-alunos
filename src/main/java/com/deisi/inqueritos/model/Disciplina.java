@@ -13,7 +13,7 @@ public class Disciplina {
 
     @Column(name = "id", unique = true)
     @Id
-    private Long id;
+    private String id;
 
     @Column(name = "nome")
     private String nome;
@@ -33,11 +33,11 @@ public class Disciplina {
         this.nome = nome;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
     public int getAno() {

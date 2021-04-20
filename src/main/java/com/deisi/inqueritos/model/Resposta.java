@@ -1,103 +1,79 @@
 package com.deisi.inqueritos.model;
 
-
-import javax.persistence.*;
-import java.math.BigInteger;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Date;
 
 @Entity
-@Table (name = "resposta")
 public class Resposta {
 
-    @Column(name = "id", unique = true)
-    @GeneratedValue ( strategy = GenerationType.AUTO)
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name="pergunta_geral_id",referencedColumnName = "id")
-    private PerguntaGeral perguntaGeral;
-    @OneToOne
-    @JoinColumn(name="pergunta_especifica_id",referencedColumnName = "id")
-    private PerguntaEspecifica perguntaEspecifica;
-    @ManyToOne
-    @JoinColumn(name="disciplina_id",nullable = false)
-    private Disciplina disciplina;
+    private String disciplinaId;
 
+    private String perguntaId;
+    private String professorId;
+    private String conteudo;
+    private String session;
+    private Date answeredAt;
 
+    public Date getAnsweredAt() {
+        return answeredAt;
+    }
 
+    public void setAnsweredAt(Date answeredAt) {
+        this.answeredAt = answeredAt;
+    }
+
+    public String getConteudo() {
+        return conteudo;
+    }
+
+    public void setConteudo(String conteudo) {
+        this.conteudo = conteudo;
+    }
+
+    public Long getId() {
+        return id;
+    }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    private Long getId() {
-        return id;
+    public String getDisciplinaId() {
+        return disciplinaId;
     }
 
-    @Column(name = "entrada")
-    private String entrada;
-
-    public void setEntrada(String entrada) {
-        this.entrada = entrada;
+    public void setDisciplinaId(String disciplinaId) {
+        this.disciplinaId = disciplinaId;
     }
 
-    public String getEntrada() {
-        return entrada;
+    public String getPerguntaId() {
+        return perguntaId;
     }
 
-  @Column(name = "ano")
-    private Date ano;
-    public void setAno (Date ano) {
-        this.ano = ano;
+    public void setPerguntaId(String perguntaId) {
+        this.perguntaId = perguntaId;
     }
 
-    public Date getAno() {
-        return ano;
+    public void setProfessorId(String professorId) {
+        this.professorId = professorId;
     }
 
-  @Column(name = "semestre", length = 1)
-    private String semestre;
-
-    public void setSemestre (String semestre) {
-        this.semestre = semestre;
+    public String getProfessorId() {
+        return professorId;
     }
 
-    public String getSemestre() {
-        return semestre;
+    public String getSession() {
+        return session;
     }
 
-    public PerguntaGeral getPerguntaGeral() {
-        return perguntaGeral;
-    }
-
-    public void setPerguntaGeral(PerguntaGeral perguntaGeral) {
-        this.perguntaGeral = perguntaGeral;
-    }
-
-    public PerguntaEspecifica getPerguntaEspecifica() {
-        return perguntaEspecifica;
-    }
-
-    public void setPerguntaEspecifica(PerguntaEspecifica perguntaEspecifica) {
-        this.perguntaEspecifica = perguntaEspecifica;
-    }
-
-    public Disciplina getDisciplina() {
-        return disciplina;
-    }
-
-    public void setDisciplina(Disciplina disciplina) {
-        this.disciplina = disciplina;
-    }
-
-    @Override
-    public String toString() {
-        return "Resposta{" +
-                "id=" + id +
-                ", entrada='" + entrada + '\'' +
-                ", ano=" + ano +
-                ", semestre='" + semestre + '\'' +
-                '}';
+    public void setSession(String session) {
+        this.session = session;
     }
 }

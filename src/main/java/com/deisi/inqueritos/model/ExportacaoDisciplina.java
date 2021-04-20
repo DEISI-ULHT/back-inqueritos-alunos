@@ -5,16 +5,10 @@ import com.deisi.inqueritos.dto.DisciplinaDTO;
 import java.util.List;
 
 public class ExportacaoDisciplina {
-    private List<DisciplinaDTO> disciplinas;
+    private DisciplinaDTO disciplina;
     private List<PerguntaGeral> perguntasGerais;
 
-    public List<DisciplinaDTO> getDisciplinas() {
-        return disciplinas;
-    }
 
-    public void setDisciplinas(List<DisciplinaDTO> disciplinas) {
-        this.disciplinas = disciplinas;
-    }
 
     public List<PerguntaGeral> getPerguntasGerais() {
         return perguntasGerais;
@@ -24,8 +18,16 @@ public class ExportacaoDisciplina {
         this.perguntasGerais = perguntasGerais;
     }
 
-    public ExportacaoDisciplina(List<DisciplinaDTO> disciplinas, List<PerguntaGeral> perguntasGerais) {
-        this.disciplinas = disciplinas;
+    public DisciplinaDTO getDisciplina() {
+        return disciplina;
+    }
+
+    public void setDisciplina(DisciplinaDTO disciplina) {
+        this.disciplina = disciplina;
+    }
+
+    public ExportacaoDisciplina(DisciplinaDTO disciplina, List<PerguntaGeral> perguntasGerais) {
+        this.disciplina = disciplina;
         this.perguntasGerais = perguntasGerais;
     }
 }

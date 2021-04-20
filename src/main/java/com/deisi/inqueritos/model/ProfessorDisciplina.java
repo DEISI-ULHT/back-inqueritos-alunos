@@ -4,23 +4,25 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "professor_disciplina")
-public class Professor_Disciplina {
+public class ProfessorDisciplina {
     @ManyToOne
     @JoinColumn(name = "disciplina_id", nullable = false)
     private Disciplina disciplina;
     @ManyToOne
     @JoinColumn(name = "professor_id", nullable = false)
     private Professor professor;
-
     @Column(name = "regente")
-    private String regente;
-    @Column(name = "tipo")
-    private String tipo;
+    private Boolean regente;
+    @Column(name = "teorico")
+    private Boolean teorico;
+    @Column(name = "pratico")
+    private Boolean pratico;
+
     @Id
     private String id;
 
 
-    public String getRegente() {
+    public Boolean getRegente() {
         return regente;
     }
 
@@ -40,16 +42,24 @@ public class Professor_Disciplina {
         this.professor = professor;
     }
 
-    public void setRegente(String regente) {
+    public void setRegente(Boolean regente) {
         this.regente = regente;
     }
 
-    public String getTipo() {
-        return tipo;
+    public Boolean getTeorico() {
+        return teorico;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setTeorico(Boolean teorico) {
+        this.teorico = teorico;
+    }
+
+    public Boolean getPratico() {
+        return pratico;
+    }
+
+    public void setPratico(Boolean pratico) {
+        this.pratico = pratico;
     }
 
     public void setId(String id) {

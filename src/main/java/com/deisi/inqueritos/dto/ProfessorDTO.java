@@ -1,60 +1,30 @@
 package com.deisi.inqueritos.dto;
 
-import java.util.List;
+import com.deisi.inqueritos.model.Professor;
+import com.deisi.inqueritos.model.ProfessorDisciplina;
 
 public class ProfessorDTO {
-    private String id;
-    private String professor;
-    private String email;
-    private List<String> disciplinas;
-    private String tipo; //TODO: Tipagem
+    private Professor professor;
+    private ProfessorDisciplina professor_disciplina;
 
-    public ProfessorDTO() {
-    }
-
-    public ProfessorDTO(String professor, String email, List<String> disciplinas) {
-        this.professor = professor;
-        this.email = email;
-        this.disciplinas = disciplinas;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getProfessor() {
+    public Professor getProfessor() {
         return professor;
     }
 
-    public void setProfessor(String professor) {
+    public void setProfessor(Professor professor) {
         this.professor = professor;
     }
 
-    public String getEmail() {
-        return email;
+    public ProfessorDisciplina getProfessor_disciplina() {
+        return professor_disciplina;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setProfessor_disciplina(ProfessorDisciplina professor_disciplina) {
+        this.professor_disciplina = professor_disciplina;
     }
 
-    public List<String> getDisciplinas() {
-        return disciplinas;
-    }
-
-    public void setDisciplinas(List<String> disciplinas) {
-        this.disciplinas = disciplinas;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public ProfessorDTO(Professor professor, ProfessorDisciplina professor_disciplina) {
+        this.professor = professor;
+        this.professor_disciplina = professor_disciplina;
     }
 }

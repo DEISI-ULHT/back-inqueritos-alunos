@@ -1,25 +1,21 @@
 package com.deisi.inqueritos.dto;
 
-import com.deisi.inqueritos.model.Curso;
-import com.deisi.inqueritos.model.PerguntaEspecifica;
-import com.deisi.inqueritos.model.PerguntaGeral;
-import com.deisi.inqueritos.model.Professor;
+import com.deisi.inqueritos.model.*;
 
 import java.util.List;
 
 public class DisciplinaDTO {
-    private Long id;
+    private String id;
     private String nome;
-    private List<Professor> professores;
+    private List<ProfessorDisciplina> professores;
     private List<Curso> cursos;
     private List<PerguntaEspecifica> perguntaEspecifica;
-    private List<PerguntaGeral> perguntaGeral;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -31,11 +27,11 @@ public class DisciplinaDTO {
         this.nome = nome;
     }
 
-    public List<Professor> getProfessores() {
+    public List<ProfessorDisciplina> getProfessores() {
         return professores;
     }
 
-    public void setProfessores(List<Professor> professores) {
+    public void setProfessores(List<ProfessorDisciplina> professores) {
         this.professores = professores;
     }
 
@@ -55,11 +51,7 @@ public class DisciplinaDTO {
         this.perguntaEspecifica = perguntaEspecifica;
     }
 
-    public List<PerguntaGeral> getPerguntaGeral() {
-        return perguntaGeral;
-    }
 
-    public void setPerguntaGeral(List<PerguntaGeral> perguntaGeral) {
-        this.perguntaGeral = perguntaGeral;
-    }
+
+
 }

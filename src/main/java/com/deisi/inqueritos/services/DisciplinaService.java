@@ -6,13 +6,17 @@ import com.deisi.inqueritos.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class DisciplinaService {
+///autowired - injeção de dependencia
+///repository é para acesso de banco
 
+    @Autowired
+    private SessaoService sessaoService;
     @Autowired
     private ProfessorRepository professorRepository;
     @Autowired
@@ -33,20 +37,16 @@ public class DisciplinaService {
 
     private DisciplinaDTO montagemObjDisciplina(Disciplina disciplina) {
 
-        //Optional<Disciplina> byId = disciplinaRepository.findById(disciplinaId);
-        //Disciplina disciplina = byId.get();
-
 
         DisciplinaDTO disciplinaDTO = new DisciplinaDTO();
 
-        disciplinaDTO.setId(disciplina.getId());
-        disciplinaDTO.setNome(disciplina.getNome());
+        disciplinaDTO.setId(disciplina.getId());//id da disciplina
+        disciplinaDTO.setNome(disciplina.getNome()); //nome da disciplina
         //Procura todas os cursos relacionados a tal disciplina
-        List<Curso_Disciplina> byDisciplinaId = cursoDisciplinaRepository.getByDisciplinaId(disciplina.getId());
-        List<Curso> cursos = byDisciplinaId.stream().map(Curso_Disciplina::getCurso).collect(Collectors.toList());
+        List<Curso_Disciplina> byDisciplinaId = cursoDisciplinaRepository.getByDisciplinaId(disciplina.getId()); //pego todos os objetos curso disciplina
+        List<Curso> cursos = byDisciplinaId.stream().map(Curso_Disciplina::getCurso).collect(Collectors.toList()); //pegando só os filtros dessa disciplina
 
-        List<Professor> professores = professorDisciplinaRepository.getByDisciplinaId(disciplina.getId())
-                .stream().map(Professor_Disciplina::getProfessor).collect(Collectors.toList());
+        List<ProfessorDisciplina> professores = professorDisciplinaRepository.getByDisciplinaId(disciplina.getId()); //
 
 
         disciplinaDTO.setCursos(cursos);
@@ -55,9 +55,11 @@ public class DisciplinaService {
         return disciplinaDTO;
     }
 
-    public ExportacaoDisciplina exportaObj() {
+    public ExportacaoDisciplina exportaObj(HttpServletRequest request, String disciplina) {
+
+
         return new ExportacaoDisciplina(
-                disciplinaRepository.findAll().stream().map(this::montagemObjDisciplina).collect(Collectors.toList())
+                montagemObjDisciplina(disciplinaRepository.findById(disciplina).get())
                 , perguntaGeralRepository.findAll());
 
 

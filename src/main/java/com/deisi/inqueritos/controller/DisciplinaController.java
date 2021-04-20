@@ -6,7 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/disciplina")
@@ -15,7 +18,7 @@ public class DisciplinaController {
     private DisciplinaService disciplinaService;
 
     @GetMapping("exportacao")
-    public ResponseEntity<?> exportacaoDTO() {
-        return new ResponseEntity<>(disciplinaService.exportaObj(), HttpStatus.OK);
+    public ResponseEntity<?> exportacaoDTO(HttpServletRequest request, @RequestParam String disciplina) {
+        return new ResponseEntity<>(disciplinaService.exportaObj(request,disciplina), HttpStatus.OK);
     }
 }
