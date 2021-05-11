@@ -65,5 +65,11 @@ public class DisciplinaService {
 
     }
 
+    public Disciplina findById(String id){
+        return disciplinaRepository.findById(id).orElse(null);
+    }
+
+
+
 
 }
