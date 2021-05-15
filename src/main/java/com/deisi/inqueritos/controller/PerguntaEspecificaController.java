@@ -18,13 +18,15 @@ import javax.servlet.http.HttpServletRequest;
     private PerguntaEspecificaService perguntaEspecificaService;
 
     @PostMapping("tenta")
-    public ResponseEntity<?> submitAnswer(@RequestBody PerguntaEspecificaDTO dto, HttpServletRequest request) {
+    public ResponseEntity<?>  submitAnswer(@ModelAttribute  PerguntaEspecificaDTO dto) {
         try {
             perguntaEspecificaService.saveDTO(dto);
             return new ResponseEntity(HttpStatus.ACCEPTED);
+
         } catch (RuntimeException exception) {
             return new ResponseEntity(exception, HttpStatus.NOT_ACCEPTABLE);
-        }
-    }
 
+        }
+
+    }
 }

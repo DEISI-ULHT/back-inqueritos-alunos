@@ -24,8 +24,11 @@ public class PerguntaEspecificaService {
     }
 
     public PerguntaEspecifica saveDTO(PerguntaEspecificaDTO dto) {
+        if(dto.getTipo().equals("A")){
+            dto.setOpcoes("");
+        }else{
+            dto.setOpcoes(dto.getA1().concat(",").concat(dto.getA2()).concat(",").concat(dto.getA3()).concat(",").concat(dto.getA4()));
+        }
         return repository.save(convertendoDTO(dto));
     }
-
-
 }
