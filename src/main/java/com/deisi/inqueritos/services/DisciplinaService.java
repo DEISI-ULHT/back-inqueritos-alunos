@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,7 +61,7 @@ public class DisciplinaService {
 
         return new ExportacaoDisciplina(
                 montagemObjDisciplina(disciplinaRepository.findById(disciplina).get())
-                , perguntaGeralRepository.findAll());
+             , perguntaGeralRepository.findAll(),"154645");
 
 
     }

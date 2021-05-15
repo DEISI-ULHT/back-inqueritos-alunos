@@ -7,7 +7,7 @@ import java.util.List;
 public class ExportacaoDisciplina {
     private DisciplinaDTO disciplina;
     private List<PerguntaGeral> perguntasGerais;
-
+    private String token;
 
 
     public List<PerguntaGeral> getPerguntasGerais() {
@@ -26,8 +26,17 @@ public class ExportacaoDisciplina {
         this.disciplina = disciplina;
     }
 
-    public ExportacaoDisciplina(DisciplinaDTO disciplina, List<PerguntaGeral> perguntasGerais) {
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public ExportacaoDisciplina(DisciplinaDTO disciplina, List<PerguntaGeral> perguntasGerais, String token) {
         this.disciplina = disciplina;
         this.perguntasGerais = perguntasGerais;
+        this.token = token;
     }
 }

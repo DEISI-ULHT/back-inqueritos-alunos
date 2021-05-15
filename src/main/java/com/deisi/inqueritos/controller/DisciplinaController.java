@@ -1,5 +1,6 @@
 package com.deisi.inqueritos.controller;
 
+import com.deisi.inqueritos.model.ExportacaoDisciplina;
 import com.deisi.inqueritos.services.DisciplinaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,7 @@ public class DisciplinaController {
     private DisciplinaService disciplinaService;
 
     @GetMapping("exportacao")
-    public ResponseEntity<?> exportacaoDTO(HttpServletRequest request, @RequestParam String disciplina) {
-        return new ResponseEntity<>(disciplinaService.exportaObj(request,disciplina), HttpStatus.OK);
+    public ResponseEntity<ExportacaoDisciplina> exportacaoDTO(HttpServletRequest request, @RequestParam String disciplina) {
+        return ResponseEntity.ok(disciplinaService.exportaObj(request,disciplina));
     }
 }
