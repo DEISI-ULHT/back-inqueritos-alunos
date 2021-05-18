@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/disciplina")
+@RequestMapping("/api/disciplina")
 public class DisciplinaController {
     @Autowired
     private DisciplinaService disciplinaService;

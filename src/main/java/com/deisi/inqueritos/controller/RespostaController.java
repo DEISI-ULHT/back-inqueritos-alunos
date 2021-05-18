@@ -13,7 +13,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 @RestController
-@RequestMapping("/resposta")
+@RequestMapping("/api/resposta")
 public class RespostaController {
 
     @Autowired

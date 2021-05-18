@@ -11,6 +11,7 @@
     <groupId>com.deisi</groupId>
     <artifactId>inqueritos</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
     <name>inqueritos</name>
     <description>Demo project for Spring Boot</description>
     <properties>
@@ -81,10 +82,26 @@
     </dependencies>
 
     <build>
+        <finalName>inqueritos</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>${project.basedir}/src/main/resources</directory>
+                            <targetPath>WEB-INF</targetPath>
+                            <includes>
+                                <include>rewrite.config</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                </configuration>
             </plugin>
         </plugins>
     </build>

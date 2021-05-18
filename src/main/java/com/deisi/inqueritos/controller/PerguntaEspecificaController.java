@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 
 @RestController
-@RequestMapping("/perguntaEspecifica")
+@RequestMapping("/api/perguntaEspecifica")
     public class PerguntaEspecificaController {
     @Autowired
     private PerguntaEspecificaService perguntaEspecificaService;
