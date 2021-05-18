@@ -9,8 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 @RestController
 @RequestMapping("/api/resposta")
@@ -24,8 +22,8 @@ public class RespostaController {
 
     @PostMapping("submit")
     public ResponseEntity<?> submitAnswer(@RequestBody RespostaDTO dto, HttpServletRequest request) {
-        dto.setSession(sessaoService.assembleSessionCode(request));
         try {
+            System.out.println("fui chamado: " + dto.getSession());
             service.saveDTO(dto);
             return new ResponseEntity(HttpStatus.ACCEPTED);
         } catch (RuntimeException exception) {
@@ -43,13 +41,9 @@ public class RespostaController {
         return ResponseEntity.ok(service.getAll());
     }
 
-    @GetMapping("session")
-    public ResponseEntity<?> getBySession(HttpServletRequest request) {
-        return ResponseEntity.ok(service.getBySession(sessaoService.assembleSessionCode(request)));
+    @GetMapping("session/{sessionId}")
+    public ResponseEntity<?> getBySession(@PathVariable String sessionId) {
+        return ResponseEntity.ok(service.getBySession(sessionId));
     }
 
-    @GetMapping("session/{sessionCode}")
-    public ResponseEntity<?> getBySessionId(HttpServletRequest request, @PathVariable String sessionCode) {
-        return ResponseEntity.ok(service.getBySession(sessionCode));
-    }
 }

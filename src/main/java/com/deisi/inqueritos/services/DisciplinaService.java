@@ -3,6 +3,7 @@ package com.deisi.inqueritos.services;
 import com.deisi.inqueritos.dto.DisciplinaDTO;
 import com.deisi.inqueritos.model.*;
 import com.deisi.inqueritos.repository.*;
+import com.deisi.inqueritos.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -61,7 +62,7 @@ public class DisciplinaService {
 
         return new ExportacaoDisciplina(
                 montagemObjDisciplina(disciplinaRepository.findById(disciplina).get())
-             , perguntaGeralRepository.findAll(),"154645");
+             , perguntaGeralRepository.findAll(), TokenUtils.assembleToken());
 
 
     }

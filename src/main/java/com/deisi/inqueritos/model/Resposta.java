@@ -21,6 +21,7 @@ public class Resposta {
     private String session;
     private Date answeredAt;
 
+
     public Date getAnsweredAt() {
         return answeredAt;
     }
