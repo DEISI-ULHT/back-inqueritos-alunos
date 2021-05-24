@@ -1,9 +1,6 @@
 package com.deisi.inqueritos.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -17,6 +14,7 @@ public class Resposta {
 
     private String perguntaId;
     private String professorId;
+    @Column(length = 8000)
     private String conteudo;
     private String session;
     private Date answeredAt;
