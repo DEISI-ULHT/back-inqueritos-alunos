@@ -14,7 +14,7 @@ public class Resposta {
 
     private String perguntaId;
     private String professorId;
-    @Column(length = 8000)
+    @Column(length=8000)
     private String conteudo;
     private String session;
     private Date answeredAt;
