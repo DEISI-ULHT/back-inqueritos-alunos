@@ -23,7 +23,6 @@ public class RespostaController {
     @PostMapping("submit")
     public ResponseEntity<?> submitAnswer(@RequestBody RespostaDTO dto, HttpServletRequest request) {
         try {
-            System.out.println("fui chamado: " + dto.getSession());
             service.saveDTO(dto);
             return new ResponseEntity(HttpStatus.ACCEPTED);
         } catch (RuntimeException exception) {

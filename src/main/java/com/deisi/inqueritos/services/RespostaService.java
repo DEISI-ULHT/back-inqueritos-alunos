@@ -11,8 +11,13 @@ import java.util.List;
 
 @Service
 public class RespostaService {
-    @Autowired
+    //@Autowired
     private RespostaRepository repository;
+
+    @Autowired
+    public RespostaService(RespostaRepository repository) {
+        this.repository = repository;
+    }
 
     private Resposta convertDTO(RespostaDTO dto) {
         Resposta resposta = new Resposta();
