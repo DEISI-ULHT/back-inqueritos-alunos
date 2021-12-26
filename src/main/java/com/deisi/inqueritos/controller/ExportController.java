@@ -4,6 +4,7 @@ import com.deisi.inqueritos.data.AggregatedResponse;
 import com.deisi.inqueritos.data.InqueritoResult;
 import com.deisi.inqueritos.data.TeacherEvaluation;
 import com.deisi.inqueritos.model.Resposta;
+import com.deisi.inqueritos.repository.RespostaRepository;
 import com.deisi.inqueritos.services.RespostaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -28,8 +30,11 @@ public class ExportController {
     @Autowired
     private RespostaService service;
 
+    @Autowired
+    private RespostaRepository repository;
+
     @GetMapping("export")
-    public ResponseEntity<List<InqueritoResult>> export(@RequestParam("token") String tokenParam) {
+    public ResponseEntity<List<InqueritoResult>> export(@RequestParam("token") String tokenParam, @RequestParam("startId") Integer startId) {
 
         if (!token.equals(tokenParam)) {
             throw new RuntimeException("Invalid token");
@@ -38,12 +43,14 @@ public class ExportController {
         List<Resposta> respostas = service.getAll();
         List<InqueritoResult> globalResult = new ArrayList<>();
 
-        Map<String,List<Resposta>> respostasBySession = respostas.stream().collect(groupingBy(Resposta::getSession));
+        Map<String,List<Resposta>> respostasBySession = respostas.stream().
+                filter((r) -> r.getId() >= startId).
+                collect(groupingBy(Resposta::getSession));
 
         Map<String,List<AggregatedResponse>> respostasByCourseId = new HashMap<>();
 
         for (List<Resposta> respostasEachSession : respostasBySession.values()) {
-            AggregatedResponse response = new AggregatedResponse(respostas.get(0).getSession());
+            AggregatedResponse response = new AggregatedResponse(respostasEachSession.get(0).getSession());
 
             Calendar c = Calendar.getInstance();
             c.set(2040, Calendar.JANUARY, 1);
@@ -60,6 +67,7 @@ public class ExportController {
 
                 if (courseId == null) {
                     courseId = currentResposta.getDisciplinaId();
+
                 } else if (!courseId.equals(currentResposta.getDisciplinaId())) {
                     throw new RuntimeException("Error! Same session was used for two different courses");
                 }
@@ -76,12 +84,15 @@ public class ExportController {
                     case "0":  // qual o curso?
                         switch (currentResposta.getConteudo()) {
                             case "Engenharia Informatica":
+                            case "Engenharia Informática":
                                 response.setProgramme("LEI");
                                 break;
                             case "Informatica Gestao":
+                            case "Informática de Gestão":
                                 response.setProgramme("LIG");
                                 break;
                             case "LEIRT":
+                            case "Engenharia Informática, Redes e Telecomunicações":
                                 response.setProgramme("LEIRT");
                                 break;
                             default:
@@ -108,13 +119,14 @@ public class ExportController {
                             default:
                                 throw new RuntimeException("Invalid mood: " + currentResposta.getConteudo());
                         }
-                    case "3":  // o que correu bem?
+                        break;
+                    case "2":  // o que correu bem?
                         response.setLikedMost(currentResposta.getConteudo());
                         break;
-                    case "4":  // o que podia ser melhorado?
+                    case "3":  // o que podia ser melhorado?
                         response.setCouldBeBetter(currentResposta.getConteudo());
                         break;
-                    case "5":  // teóricas e práticas sincronizadas?
+                    case "4":  // teóricas e práticas sincronizadas?
                         switch (currentResposta.getConteudo()) {
                             case "Muita ligação":
                                 response.setSync(3);
@@ -132,7 +144,7 @@ public class ExportController {
                                 throw new RuntimeException("Invalid sync: " + currentResposta.getConteudo());
                         }
                         break;
-                    case "10":
+                    case "7":
                         if (theoreticalTeacher == null) {
                             theoreticalTeacher = new TeacherEvaluation(currentResposta.getProfessorId());
                             theoreticalTeacher.setExplanations(Integer.parseInt(currentResposta.getConteudo()));
@@ -141,8 +153,9 @@ public class ExportController {
                             practicalTeacher.setExplanations(Integer.parseInt(currentResposta.getConteudo()));
                         }
                         break;
-                    case "11":
-                        if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
+                    case "8":
+                        if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId()) &&
+                            theoreticalTeacher.getWellPrepared() == 0) {
                             theoreticalTeacher.setWellPrepared(Integer.parseInt(currentResposta.getConteudo()));
                         } else if (practicalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
                             practicalTeacher.setWellPrepared(Integer.parseInt(currentResposta.getConteudo()));
@@ -150,8 +163,9 @@ public class ExportController {
                             throw new RuntimeException("Error! teacher is neither theoretical or practical!");
                         }
                         break;
-                    case "12":
-                        if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
+                    case "9":
+                        if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId()) &&
+                            theoreticalTeacher.getAvailability() == 0) {
                             theoreticalTeacher.setAvailability(Integer.parseInt(currentResposta.getConteudo()));
                         } else if (practicalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
                             practicalTeacher.setAvailability(Integer.parseInt(currentResposta.getConteudo()));
@@ -159,8 +173,9 @@ public class ExportController {
                             throw new RuntimeException("Error! teacher is neither theoretical or practical!");
                         }
                         break;
-                    case "13":
-                        if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
+                    case "10":
+                        if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId()) &&
+                                theoreticalTeacher.getMaterial() == 0) {
                             theoreticalTeacher.setMaterial(Integer.parseInt(currentResposta.getConteudo()));
                         } else if (practicalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
                             practicalTeacher.setMaterial(Integer.parseInt(currentResposta.getConteudo()));
@@ -168,8 +183,10 @@ public class ExportController {
                             throw new RuntimeException("Error! teacher is neither theoretical or practical!");
                         }
                         break;
-                    case "14":
-                        if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
+                    case "11":  // métodos de avaliação (componente teórica)
+                        // devido a um bug, até uma certa altura quer a a resposta teórica quer prática vinham parar aqui
+                        if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId()) &&
+                                theoreticalTeacher.getAssessment() == 0) {
                             theoreticalTeacher.setAssessment(Integer.parseInt(currentResposta.getConteudo()));
                         } else if (practicalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
                             practicalTeacher.setAssessment(Integer.parseInt(currentResposta.getConteudo()));
@@ -177,8 +194,19 @@ public class ExportController {
                             throw new RuntimeException("Error! teacher is neither theoretical or practical!");
                         }
                         break;
-                    case "15":
-                        if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
+                    case "14":  // métodos de avaliação (componente prática)
+                        if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId()) &&
+                                theoreticalTeacher.getAssessment() == 0) {
+                            throw new RuntimeException("Error! this perguntaId is only for practical!");
+                        } else if (practicalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
+                            practicalTeacher.setAssessment(Integer.parseInt(currentResposta.getConteudo()));
+                        } else {
+                            throw new RuntimeException("Error! teacher is neither theoretical or practical!");
+                        }
+                        break;
+                    case "12":
+                        if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId()) &&
+                                theoreticalTeacher.getAgain() == 0) {
                             theoreticalTeacher.setAgain(Integer.parseInt(currentResposta.getConteudo()));
                         } else if (practicalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
                             practicalTeacher.setAgain(Integer.parseInt(currentResposta.getConteudo()));
@@ -186,6 +214,7 @@ public class ExportController {
                             throw new RuntimeException("Error! teacher is neither theoretical or practical!");
                         }
                         break;
+
                 }
             }
 
@@ -210,5 +239,46 @@ public class ExportController {
         }
 
         return new ResponseEntity<>(globalResult, HttpStatus.OK);
+    }
+
+    @GetMapping("martelada")
+    public ResponseEntity<List<InqueritoResult>> martelada() {
+
+//        List<Resposta> respostas = service.getAll();
+//
+//        Timestamp start = new Timestamp(2021 - 1900, Calendar.DECEMBER, 13, 10, 0, 0, 0);
+//
+//        HashSet<String> sessions = new HashSet<>();
+//        for (Resposta resposta : respostas) {
+//            if (resposta.getAnsweredAt().after(start)) {
+//                sessions.add(resposta.getSession());
+//            }
+//        }
+//
+//        for (String session : sessions) {
+//            List<Resposta> respostasBySession = repository.getBySessionOrderByAnsweredAt(session);
+//            boolean passeiParaPraticas = false;
+//            for (Resposta resposta1 : respostasBySession) {
+//                if (resposta1.getPerguntaId().equals("13")) {
+//                    passeiParaPraticas = true;
+//                } else if (passeiParaPraticas) {
+//                    if (resposta1.getSession().equals("cGVdjA-pGABZu-vXQzzN-JnWaAO")) {
+//                        if (resposta1.getPerguntaId().equals("12")) {
+//                            Resposta r = service.getById(resposta1.getId().intValue());
+//                            r.setPerguntaId("11");
+//                            repository.save(r);
+//                            // System.out.println("Vou atualizar para 11 " + r);
+//                        } else if (resposta1.getPerguntaId().equals("14")) {
+//                            Resposta r = service.getById(resposta1.getId().intValue());
+//                            r.setPerguntaId("12");
+//                            repository.save(r);
+//                            // System.out.println("Vou atualizar para 12 " + r);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+
+        return null;
     }
 }

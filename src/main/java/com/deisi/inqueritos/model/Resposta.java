@@ -75,4 +75,17 @@ public class Resposta {
     public void setSession(String session) {
         this.session = session;
     }
+
+    @Override
+    public String toString() {
+        return "Resposta{" +
+                "id=" + id +
+                ", disciplinaId='" + disciplinaId + '\'' +
+                ", perguntaId='" + perguntaId + '\'' +
+                ", professorId='" + professorId + '\'' +
+                ", conteudo='" + conteudo + '\'' +
+                ", session='" + session + '\'' +
+                ", answeredAt=" + answeredAt +
+                '}';
+    }
 }

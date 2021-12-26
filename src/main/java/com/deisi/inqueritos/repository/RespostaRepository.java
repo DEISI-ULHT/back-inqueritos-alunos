@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface RespostaRepository extends JpaRepository<Resposta, Long> {
     List<Resposta> getBySession(String session);
+    List<Resposta> getBySessionOrderByAnsweredAt(String session);
 }
