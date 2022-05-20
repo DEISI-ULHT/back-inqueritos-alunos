@@ -24,6 +24,8 @@ public class Disciplina {
     @Column(name = "semestre", length = 1)
     private String semestre;
 
+    @Column(name = "codigo", length = 6, unique = true)
+    private String codigo;
 
     public String getNome() {
         return nome;
@@ -54,5 +56,13 @@ public class Disciplina {
 
     public void setSemestre(String semestre) {
         this.semestre = semestre;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 }

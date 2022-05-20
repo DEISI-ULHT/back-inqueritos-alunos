@@ -95,6 +95,12 @@ public class ExportController {
                             case "Engenharia Informática, Redes e Telecomunicações":
                                 response.setProgramme("LEIRT");
                                 break;
+                            case "MEISI":
+                                response.setProgramme("MEISI");
+                                break;
+                            case "MCD":
+                                response.setProgramme("MCD");
+                                break;
                             default:
                                 throw new RuntimeException("Invalid programme: " + currentResposta.getConteudo());
                         }

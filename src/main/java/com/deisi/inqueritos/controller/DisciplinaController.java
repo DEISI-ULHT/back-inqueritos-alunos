@@ -19,7 +19,8 @@ public class DisciplinaController {
     private DisciplinaService disciplinaService;
 
     @GetMapping("exportacao")
-    public ResponseEntity<ExportacaoDisciplina> exportacaoDTO(HttpServletRequest request, @RequestParam String disciplina) {
-        return ResponseEntity.ok(disciplinaService.exportaObj(request,disciplina));
+    public ResponseEntity<ExportacaoDisciplina> exportacaoDTO(HttpServletRequest request,
+                                                              @RequestParam(name = "disciplina") String codigoDisciplina) {
+        return ResponseEntity.ok(disciplinaService.exportaObj(request,codigoDisciplina));
     }
 }

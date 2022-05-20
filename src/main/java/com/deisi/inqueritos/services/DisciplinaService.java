@@ -57,11 +57,11 @@ public class DisciplinaService {
         return disciplinaDTO;
     }
 
-    public ExportacaoDisciplina exportaObj(HttpServletRequest request, String disciplina) {
+    public ExportacaoDisciplina exportaObj(HttpServletRequest request, String codigoDisciplina) {
 
 
         return new ExportacaoDisciplina(
-                montagemObjDisciplina(disciplinaRepository.findById(disciplina).get())
+                montagemObjDisciplina(disciplinaRepository.getDisciplinaByCodigo(codigoDisciplina))
              , perguntaGeralRepository.findAll(), TokenUtils.assembleToken());
 
 
