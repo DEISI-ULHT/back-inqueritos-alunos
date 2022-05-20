@@ -21,6 +21,9 @@ public class DisciplinaController {
     @GetMapping("exportacao")
     public ResponseEntity<ExportacaoDisciplina> exportacaoDTO(HttpServletRequest request,
                                                               @RequestParam(name = "disciplina") String codigoDisciplina) {
+
+        // os codigoDisciplina vêm sempre prefixados de "_" para facilitar as rewrite rules
+        codigoDisciplina = codigoDisciplina.replaceFirst("_", "");
         return ResponseEntity.ok(disciplinaService.exportaObj(request,codigoDisciplina));
     }
 }
