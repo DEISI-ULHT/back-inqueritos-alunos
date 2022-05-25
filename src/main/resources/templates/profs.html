@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin</title>
+    <meta name="viewport" content="width=device-with, initial-scale=1.0"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <h1>Admin</h1>
+        <form th:action="@{/admin/generateProfsDisc}" class="form-horizontal" method="post">
+            <div class="form-group">
+                <label for="yearOrigin">De ano:</label>
+                <input type="text" name="yearOrigin" id="yearOrigin">
+            </div>
+            <div class="form-group">
+                <label for="yearTarget">Para ano:</label>
+                <input type="text" name="yearTarget" id="yearTarget">
+            </div>
+            <div class="form-group">
+                <label for="semester">Semestre: (1 ou 2)</label>
+                <input type="text" name="semester" id="semester">
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Copiar">
+            </div>
+        </form>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Ano</th>
+                    <th>Semestre</th>
+                    <th>Disciplina</th>
+                    <th>Professor</th>
+                    <th>Regente</th>
+                    <th>Teoricas</th>
+                    <th>Praticas</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="pd : ${result}">
+                    <td th:text="${pd.getAno()}"></td>
+                    <td th:text="${pd.getDisciplina().getSemestre()}"></td>
+                    <td th:text="${pd.getDisciplina().getNome() + ' (' + pd.getDisciplina().getAno() + ')'}"></td>
+                    <td th:text="${pd.getProfessor().getNome() + ' (' + pd.getProfessor().getId() + ')'}"></td>
+                    <td th:text="${pd.getRegente()}"></td>
+                    <td th:text="${pd.getTeorico()}"></td>
+                    <td th:text="${pd.getPratico()}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
