@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ProfessorDisciplinaRepository extends JpaRepository<ProfessorDisciplina, Long> {
-    List<ProfessorDisciplina> getByDisciplinaId(String disciplina_id);
+    List<ProfessorDisciplina> getByDisciplinaIdAndAno(String disciplinaId, int ano);
     List<ProfessorDisciplina> getByAnoAndDisciplinaSemestre(int ano, String semestre);
 }

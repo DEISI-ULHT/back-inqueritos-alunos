@@ -3,6 +3,7 @@ package com.deisi.inqueritos.services;
 import com.deisi.inqueritos.dto.DisciplinaDTO;
 import com.deisi.inqueritos.model.*;
 import com.deisi.inqueritos.repository.*;
+import com.deisi.inqueritos.utils.AnoLetivoUtils;
 import com.deisi.inqueritos.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,8 @@ public class DisciplinaService {
         List<Curso_Disciplina> byDisciplinaId = cursoDisciplinaRepository.getByDisciplinaId(disciplina.getId()); //pego todos os objetos curso disciplina
         List<Curso> cursos = byDisciplinaId.stream().map(Curso_Disciplina::getCurso).collect(Collectors.toList()); //pegando só os filtros dessa disciplina
 
-        List<ProfessorDisciplina> professores = professorDisciplinaRepository.getByDisciplinaId(disciplina.getId()); //
+        List<ProfessorDisciplina> professores =
+                professorDisciplinaRepository.getByDisciplinaIdAndAno(disciplina.getId(), AnoLetivoUtils.getAnoLetivoAtual());
 
 
         disciplinaDTO.setCursos(cursos);
