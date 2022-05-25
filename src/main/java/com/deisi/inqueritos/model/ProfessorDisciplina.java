@@ -18,6 +18,9 @@ public class ProfessorDisciplina {
     @Column(name = "pratico")
     private Boolean pratico;
 
+    @Column(name = "ano", length = 4)
+    private int ano;
+
     @Id
     private String id;
 
@@ -68,5 +71,13 @@ public class ProfessorDisciplina {
 
     public String getId() {
         return id;
+    }
+
+    public int getAno() {
+        return ano;
+    }
+
+    public void setAno(int ano) {
+        this.ano = ano;
     }
 }

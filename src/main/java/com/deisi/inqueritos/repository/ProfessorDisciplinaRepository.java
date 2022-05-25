@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ProfessorDisciplinaRepository extends JpaRepository<ProfessorDisciplina, Long> {
     List<ProfessorDisciplina> getByDisciplinaId(String disciplina_id);
+    List<ProfessorDisciplina> getByAnoAndDisciplinaSemestre(int ano, String semestre);
 }
