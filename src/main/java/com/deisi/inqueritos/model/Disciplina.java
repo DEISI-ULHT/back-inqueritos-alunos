@@ -1,9 +1,6 @@
 package com.deisi.inqueritos.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -26,6 +23,9 @@ public class Disciplina {
 
     @Column(name = "codigo", length = 6, unique = true)
     private String codigo;
+
+    @Transient
+    private int numRespostas;
 
     public String getNome() {
         return nome;
@@ -64,5 +64,13 @@ public class Disciplina {
 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
+    }
+
+    public int getNumRespostas() {
+        return numRespostas;
+    }
+
+    public void setNumRespostas(int numRespostas) {
+        this.numRespostas = numRespostas;
     }
 }

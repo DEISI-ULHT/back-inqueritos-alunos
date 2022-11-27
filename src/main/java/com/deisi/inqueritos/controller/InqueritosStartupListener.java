@@ -1,7 +1,9 @@
 package com.deisi.inqueritos.controller;
 
 import com.deisi.inqueritos.model.Disciplina;
+import com.deisi.inqueritos.model.Professor;
 import com.deisi.inqueritos.repository.DisciplinaRepository;
+import com.deisi.inqueritos.repository.ProfessorRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class InqueritosStartupListener implements ApplicationListener<ContextRef
 
     @Autowired
     private DisciplinaRepository disciplinaRepository;
+
+    @Autowired
+    private ProfessorRepository professorRepository;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {

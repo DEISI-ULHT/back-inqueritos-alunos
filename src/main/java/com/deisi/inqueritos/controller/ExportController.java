@@ -80,147 +80,149 @@ public class ExportController {
                     end = currentResposta.getAnsweredAt();
                 }
 
-                switch (currentResposta.getPerguntaId()) {
-                    case "0":  // qual o curso?
-                        switch (currentResposta.getConteudo()) {
-                            case "Engenharia Informatica":
-                            case "Engenharia Informática":
-                                response.setProgramme("LEI");
-                                break;
-                            case "Informatica Gestao":
-                            case "Informática de Gestão":
-                                response.setProgramme("LIG");
-                                break;
-                            case "LEIRT":
-                            case "Engenharia Informática, Redes e Telecomunicações":
-                                response.setProgramme("LEIRT");
-                                break;
-                            case "MEISI":
-                                response.setProgramme("MEISI");
-                                break;
-                            case "MCD":
-                                response.setProgramme("MCD");
-                                break;
-                            default:
-                                throw new RuntimeException("Invalid programme: " + currentResposta.getConteudo());
-                        }
-                        break;
-                    case "1":  // como te sentes?
-                        switch (currentResposta.getConteudo()) {
-                            case "Muito bem":
-                                response.setMood(5);
-                                break;
-                            case "Bem":
-                                response.setMood(4);
-                                break;
-                            case "Razoavel":
-                                response.setMood(3);
-                                break;
-                            case "Mal":
-                                response.setMood(2);
-                                break;
-                            case "Muito mal":
-                                response.setMood(1);
-                                break;
-                            default:
-                                throw new RuntimeException("Invalid mood: " + currentResposta.getConteudo());
-                        }
-                        break;
-                    case "2":  // o que correu bem?
-                        response.setLikedMost(currentResposta.getConteudo());
-                        break;
-                    case "3":  // o que podia ser melhorado?
-                        response.setCouldBeBetter(currentResposta.getConteudo());
-                        break;
-                    case "4":  // teóricas e práticas sincronizadas?
-                        switch (currentResposta.getConteudo()) {
-                            case "Muita ligação":
-                                response.setSync(3);
-                                break;
-                            case "Pouca ligação":
-                                response.setSync(2);
-                                break;
-                            case "Nenhuma Ligação":
-                                response.setSync(1);
-                                break;
-                            case "Não faz sentido nessa disciplina":
-                                response.setSync(-1);
-                                break;
-                            default:
-                                throw new RuntimeException("Invalid sync: " + currentResposta.getConteudo());
-                        }
-                        break;
-                    case "7":
-                        if (theoreticalTeacher == null) {
-                            theoreticalTeacher = new TeacherEvaluation(currentResposta.getProfessorId());
-                            theoreticalTeacher.setExplanations(Integer.parseInt(currentResposta.getConteudo()));
-                        } else {
-                            practicalTeacher = new TeacherEvaluation(currentResposta.getProfessorId());
-                            practicalTeacher.setExplanations(Integer.parseInt(currentResposta.getConteudo()));
-                        }
-                        break;
-                    case "8":
-                        if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId()) &&
-                            theoreticalTeacher.getWellPrepared() == 0) {
-                            theoreticalTeacher.setWellPrepared(Integer.parseInt(currentResposta.getConteudo()));
-                        } else if (practicalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
-                            practicalTeacher.setWellPrepared(Integer.parseInt(currentResposta.getConteudo()));
-                        } else {
-                            throw new RuntimeException("Error! teacher is neither theoretical or practical!");
-                        }
-                        break;
-                    case "9":
-                        if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId()) &&
-                            theoreticalTeacher.getAvailability() == 0) {
-                            theoreticalTeacher.setAvailability(Integer.parseInt(currentResposta.getConteudo()));
-                        } else if (practicalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
-                            practicalTeacher.setAvailability(Integer.parseInt(currentResposta.getConteudo()));
-                        } else {
-                            throw new RuntimeException("Error! teacher is neither theoretical or practical!");
-                        }
-                        break;
-                    case "10":
-                        if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId()) &&
-                                theoreticalTeacher.getMaterial() == 0) {
-                            theoreticalTeacher.setMaterial(Integer.parseInt(currentResposta.getConteudo()));
-                        } else if (practicalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
-                            practicalTeacher.setMaterial(Integer.parseInt(currentResposta.getConteudo()));
-                        } else {
-                            throw new RuntimeException("Error! teacher is neither theoretical or practical!");
-                        }
-                        break;
-                    case "11":  // métodos de avaliação (componente teórica)
-                        // devido a um bug, até uma certa altura quer a a resposta teórica quer prática vinham parar aqui
-                        if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId()) &&
-                                theoreticalTeacher.getAssessment() == 0) {
-                            theoreticalTeacher.setAssessment(Integer.parseInt(currentResposta.getConteudo()));
-                        } else if (practicalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
-                            practicalTeacher.setAssessment(Integer.parseInt(currentResposta.getConteudo()));
-                        } else {
-                            throw new RuntimeException("Error! teacher is neither theoretical or practical!");
-                        }
-                        break;
-                    case "14":  // métodos de avaliação (componente prática)
-                        if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId()) &&
-                                theoreticalTeacher.getAssessment() == 0) {
-                            throw new RuntimeException("Error! this perguntaId is only for practical!");
-                        } else if (practicalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
-                            practicalTeacher.setAssessment(Integer.parseInt(currentResposta.getConteudo()));
-                        } else {
-                            throw new RuntimeException("Error! teacher is neither theoretical or practical!");
-                        }
-                        break;
-                    case "12":
-                        if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId()) &&
-                                theoreticalTeacher.getAgain() == 0) {
-                            theoreticalTeacher.setAgain(Integer.parseInt(currentResposta.getConteudo()));
-                        } else if (practicalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
-                            practicalTeacher.setAgain(Integer.parseInt(currentResposta.getConteudo()));
-                        } else {
-                            throw new RuntimeException("Error! teacher is neither theoretical or practical!");
-                        }
-                        break;
+                if (currentResposta.getConteudo() != null) {
+                    switch (currentResposta.getPerguntaId()) {
+                        case "0":  // qual o curso?
+                            switch (currentResposta.getConteudo()) {
+                                case "Engenharia Informatica":
+                                case "Engenharia Informática":
+                                    response.setProgramme("LEI");
+                                    break;
+                                case "Informatica Gestao":
+                                case "Informática de Gestão":
+                                    response.setProgramme("LIG");
+                                    break;
+                                case "LEIRT":
+                                case "Engenharia Informática, Redes e Telecomunicações":
+                                    response.setProgramme("LEIRT");
+                                    break;
+                                case "MEISI":
+                                    response.setProgramme("MEISI");
+                                    break;
+                                case "MCD":
+                                    response.setProgramme("MCD");
+                                    break;
+                                default:
+                                    throw new RuntimeException("Invalid programme: " + currentResposta.getConteudo());
+                            }
+                            break;
+                        case "1":  // como te sentes?
+                            switch (currentResposta.getConteudo()) {
+                                case "Muito bem":
+                                    response.setMood(5);
+                                    break;
+                                case "Bem":
+                                    response.setMood(4);
+                                    break;
+                                case "Razoavel":
+                                    response.setMood(3);
+                                    break;
+                                case "Mal":
+                                    response.setMood(2);
+                                    break;
+                                case "Muito mal":
+                                    response.setMood(1);
+                                    break;
+                                default:
+                                    throw new RuntimeException("Invalid mood: " + currentResposta.getConteudo());
+                            }
+                            break;
+                        case "2":  // o que correu bem?
+                            response.setLikedMost(currentResposta.getConteudo());
+                            break;
+                        case "3":  // o que podia ser melhorado?
+                            response.setCouldBeBetter(currentResposta.getConteudo());
+                            break;
+                        case "4":  // teóricas e práticas sincronizadas?
+                            switch (currentResposta.getConteudo()) {
+                                case "Muita ligação":
+                                    response.setSync(3);
+                                    break;
+                                case "Pouca ligação":
+                                    response.setSync(2);
+                                    break;
+                                case "Nenhuma Ligação":
+                                    response.setSync(1);
+                                    break;
+                                case "Não faz sentido nessa disciplina":
+                                    response.setSync(-1);
+                                    break;
+                                default:
+                                    throw new RuntimeException("Invalid sync: " + currentResposta.getConteudo());
+                            }
+                            break;
+                        case "7":
+                            if (theoreticalTeacher == null) {
+                                theoreticalTeacher = new TeacherEvaluation(currentResposta.getProfessorId());
+                                theoreticalTeacher.setExplanations(Integer.parseInt(currentResposta.getConteudo()));
+                            } else {
+                                practicalTeacher = new TeacherEvaluation(currentResposta.getProfessorId());
+                                practicalTeacher.setExplanations(Integer.parseInt(currentResposta.getConteudo()));
+                            }
+                            break;
+                        case "8":
+                            if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId()) &&
+                                theoreticalTeacher.getWellPrepared() == 0) {
+                                theoreticalTeacher.setWellPrepared(Integer.parseInt(currentResposta.getConteudo()));
+                            } else if (practicalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
+                                practicalTeacher.setWellPrepared(Integer.parseInt(currentResposta.getConteudo()));
+                            } else {
+                                throw new RuntimeException("Error! teacher is neither theoretical or practical!");
+                            }
+                            break;
+                        case "9":
+                            if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId()) &&
+                                theoreticalTeacher.getAvailability() == 0) {
+                                theoreticalTeacher.setAvailability(Integer.parseInt(currentResposta.getConteudo()));
+                            } else if (practicalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
+                                practicalTeacher.setAvailability(Integer.parseInt(currentResposta.getConteudo()));
+                            } else {
+                                throw new RuntimeException("Error! teacher is neither theoretical or practical!");
+                            }
+                            break;
+                        case "10":
+                            if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId()) &&
+                                    theoreticalTeacher.getMaterial() == 0) {
+                                theoreticalTeacher.setMaterial(Integer.parseInt(currentResposta.getConteudo()));
+                            } else if (practicalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
+                                practicalTeacher.setMaterial(Integer.parseInt(currentResposta.getConteudo()));
+                            } else {
+                                throw new RuntimeException("Error! teacher is neither theoretical or practical!");
+                            }
+                            break;
+                        case "11":  // métodos de avaliação (componente teórica)
+                            // devido a um bug, até uma certa altura quer a a resposta teórica quer prática vinham parar aqui
+                            if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId()) &&
+                                    theoreticalTeacher.getAssessment() == 0) {
+                                theoreticalTeacher.setAssessment(Integer.parseInt(currentResposta.getConteudo()));
+                            } else if (practicalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
+                                practicalTeacher.setAssessment(Integer.parseInt(currentResposta.getConteudo()));
+                            } else {
+                                throw new RuntimeException("Error! teacher is neither theoretical or practical!");
+                            }
+                            break;
+                        case "14":  // métodos de avaliação (componente prática)
+                            if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId()) &&
+                                    theoreticalTeacher.getAssessment() == 0) {
+                                throw new RuntimeException("Error! this perguntaId is only for practical!");
+                            } else if (practicalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
+                                practicalTeacher.setAssessment(Integer.parseInt(currentResposta.getConteudo()));
+                            } else {
+                                throw new RuntimeException("Error! teacher is neither theoretical or practical!");
+                            }
+                            break;
+                        case "12":
+                            if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId()) &&
+                                    theoreticalTeacher.getAgain() == 0) {
+                                theoreticalTeacher.setAgain(Integer.parseInt(currentResposta.getConteudo()));
+                            } else if (practicalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
+                                practicalTeacher.setAgain(Integer.parseInt(currentResposta.getConteudo()));
+                            } else {
+                                throw new RuntimeException("Error! teacher is neither theoretical or practical!");
+                            }
+                            break;
 
+                    }
                 }
             }
 

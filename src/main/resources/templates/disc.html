@@ -14,6 +14,7 @@
                 <tr>
                     <th>Disciplina</th>
                     <th>Link</th>
+                    <th>Num respostas</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,6 +24,7 @@
                         <a th:href="${'https://deisi.ulusofona.pt/inqueritos/_' + d.getCodigo()}"
                            th:text="${'https://deisi.ulusofona.pt/inqueritos/_' + d.getCodigo()}" />
                     </td>
+                    <td th:text="${d.getNumRespostas()}"></td>
                 </tr>
             </tbody>
         </table>
