@@ -8,6 +8,7 @@ import com.deisi.inqueritos.repository.ProfessorDisciplinaRepository;
 import com.deisi.inqueritos.repository.RespostaRepository;
 import com.deisi.inqueritos.services.DisciplinaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +18,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.Year;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+
+    @Value("${inqueritos.current.semester}")
+    private String currentSemester;
 
     @Autowired
     private ProfessorDisciplinaRepository professorDisciplinaRepository;
@@ -53,12 +58,19 @@ public class AdminController {
 
         // when the current survey started
         Calendar startSurvey = Calendar.getInstance();
-        startSurvey.set(2022, Calendar.MAY, 1, 0, 0, 0);
+        int currentYear = Year.now().getValue();
+        if (currentSemester.equals("1")) {
+            startSurvey.set(currentYear, Calendar.NOVEMBER, 1, 0, 0, 0);
+        } else if (currentSemester.equals("2")) {
+            startSurvey.set(currentYear, Calendar.MAY, 1, 0, 0, 0);
+        } else {
+            throw new IllegalArgumentException("Invalid semester: " + currentSemester);
+        }
 
-        List<Disciplina> all = disciplinaRepository.getDisciplinasBySemestreOrderByNome("2");
+        List<Disciplina> all = disciplinaRepository.getDisciplinasBySemestreOrderByNome(currentSemester);
         List<Disciplina> result = all.stream()
 //                        .filter((d) -> d.getAno() != 4)  // licenciaturas
-                        .filter((d) -> d.getAno() >= 4)  // mestrados
+//                        .filter((d) -> d.getAno() >= 4)  // mestrados
                         .collect(Collectors.toList());
 
         for (Disciplina disciplina : result) {
