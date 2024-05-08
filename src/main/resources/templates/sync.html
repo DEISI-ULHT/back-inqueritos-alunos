@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin</title>
+    <meta name="viewport" content="width=device-with, initial-scale=1.0"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <h1>Admin</h1>
+        <form th:action="@{/admin/}" method="post">
+            <p>Press this button to update the database with information from the deisidsd api
+                (courses, teachers and the association between them)</p>
+            <input type="submit" name="Sync" value="Sync" />
+        </form>
+    </div>
+
+</body>
+</html>

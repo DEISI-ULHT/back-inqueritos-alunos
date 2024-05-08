@@ -27,6 +27,17 @@ public class Disciplina {
     @Transient
     private int numRespostas;
 
+    public Disciplina() {
+    }
+
+    public Disciplina(String id, String nome, int ano, String semestre, String codigo) {
+        this.id = id;
+        this.nome = nome;
+        this.ano = ano;
+        this.semestre = semestre;
+        this.codigo = codigo;
+    }
+
     public String getNome() {
         return nome;
     }

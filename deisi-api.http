@@ -1,0 +1,10 @@
+GET https://dsdeisi.pythonanywhere.com/inqueritos-courses/23-24
+Accept: application/json
+
+###
+GET https://dsdeisi.pythonanywhere.com/inqueritos-teachers/23-24
+Accept: application/json
+
+###
+GET https://dsdeisi.pythonanywhere.com/inqueritos-teacher-courses/23-24/1
+Accept: application/json

@@ -6,14 +6,24 @@ import javax.persistence.*;
 @Table(name = "curso_disciplina")
 public class Curso_Disciplina {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
+
     @ManyToOne
     @JoinColumn(name = "disciplina_id", nullable = false)
     private Disciplina disciplina;
     @ManyToOne
     @JoinColumn(name = "curso_id", nullable = false)
     private Curso curso;
-    @Id
-    private String id;
+
+    public Curso_Disciplina() {
+    }
+
+    public Curso_Disciplina(Disciplina disciplina, Curso curso) {
+        this.disciplina = disciplina;
+        this.curso = curso;
+    }
 
     public Disciplina getDisciplina() {
         return disciplina;

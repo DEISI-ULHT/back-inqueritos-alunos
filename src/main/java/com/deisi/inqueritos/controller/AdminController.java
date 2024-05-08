@@ -1,12 +1,15 @@
 package com.deisi.inqueritos.controller;
 
-import com.deisi.inqueritos.model.Disciplina;
-import com.deisi.inqueritos.model.ProfessorDisciplina;
-import com.deisi.inqueritos.model.Resposta;
-import com.deisi.inqueritos.repository.DisciplinaRepository;
-import com.deisi.inqueritos.repository.ProfessorDisciplinaRepository;
-import com.deisi.inqueritos.repository.RespostaRepository;
-import com.deisi.inqueritos.services.DisciplinaService;
+import com.deisi.inqueritos.apiclient.Course;
+import com.deisi.inqueritos.apiclient.InnerTeacherCourse;
+import com.deisi.inqueritos.apiclient.Teacher;
+import com.deisi.inqueritos.apiclient.TeacherCourses;
+import com.deisi.inqueritos.model.*;
+import com.deisi.inqueritos.repository.*;
+import com.deisi.inqueritos.services.APIClientService;
+import com.deisi.inqueritos.utils.RandomStringGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -16,8 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.Year;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,8 +27,16 @@ import java.util.stream.Collectors;
 @RequestMapping("/admin")
 public class AdminController {
 
+    Logger LOG = LoggerFactory.getLogger(AdminController.class);
+
     @Value("${inqueritos.current.semester}")
     private String currentSemester;
+
+    @Value("${inqueritos.current.year}")
+    private String currentYear;
+
+    @Autowired
+    private ProfessorRepository professorRepository;
 
     @Autowired
     private ProfessorDisciplinaRepository professorDisciplinaRepository;
@@ -36,17 +45,104 @@ public class AdminController {
     private DisciplinaRepository disciplinaRepository;
 
     @Autowired
+    private CursoRepository cursoRepository;
+
+    @Autowired
+    private CursoDisciplinaRepository cursoDisciplinaRepository;
+
+    @Autowired
     private RespostaRepository respostaRepository;
+
+    @Autowired
+    private APIClientService apiClientService;
+
+    @GetMapping("/")
+    public String getSyncForm() {
+        return "sync";
+    }
+
+    @PostMapping("/")
+    public String sync() {
+
+        LOG.info("Fetching courses from the API");
+
+        List<Course> courses = apiClientService.fetchCourses(currentYear);
+
+        LOG.info("Received " + courses.size() + " courses");
+
+        for (Course course : courses) {
+            if (!disciplinaRepository.existsById(course.getId())) {
+                Disciplina disciplina = new Disciplina(course.getId(),
+                        course.getName(),
+                        course.getYear(),
+                        "" + course.getSemester(),
+                        RandomStringGenerator.generateRandomString());
+                disciplinaRepository.save(disciplina);
+                LOG.info("Saved " + disciplina.getId());
+
+                for (String programme : course.getProgrammes()) {
+                    Curso curso = cursoRepository.findCursoBySigla(programme);
+                    if (curso == null) {
+                        LOG.warn("Curso não existe na BD: " + programme);
+                    } else {
+                        if (!cursoDisciplinaRepository.existsByCursoAndAndDisciplina(curso, disciplina)) {
+                            cursoDisciplinaRepository.save(new Curso_Disciplina(disciplina, curso));
+                            LOG.info("Saved relation " + disciplina.getId() + " <-> " + curso.getSigla());
+                        }
+                    }
+                }
+            }
+        }
+
+        LOG.info("Fetching teachers from the API");
+
+        List<Teacher> teachers = apiClientService.fetchTeachers(currentYear);
+
+        LOG.info("Received " + teachers.size() + " teachers");
+
+        for (Teacher teacher : teachers) {
+            if (!professorRepository.existsByIdLusofona(teacher.getIdInqueritos())) {
+                professorRepository.save(new Professor(teacher.getIdInqueritos(), teacher.getName(), "email"));
+                LOG.info("Saved " + teacher.getIdInqueritos());
+            }
+        }
+
+        LOG.info("Fetching teacher-courses from the API");
+
+        List<TeacherCourses> teacherCourses = apiClientService.fetchTeachersCourse(currentYear, currentSemester);
+
+        LOG.info("Received " + teacherCourses.size() + " teacher-courses");
+
+        int currentYearDB = Integer.parseInt("20" + currentYear.substring(0, 2));
+        for (TeacherCourses teacherCourse : teacherCourses) {
+
+            Professor professor = professorRepository.findByIdLusofona(teacherCourse.getTeacherId());
+
+            for (InnerTeacherCourse course : teacherCourse.getCourses()) {
+                Disciplina disciplina = disciplinaRepository.getOne(course.getId());
+                if (!professorDisciplinaRepository.existsByDisciplinaAndProfessorAndAnoAndSemestre(disciplina, professor,
+                        currentYearDB, Integer.parseInt(currentSemester))) {
+                    professorDisciplinaRepository.save(new ProfessorDisciplina(disciplina,
+                            professor, course.isCoordinador(), course.isTheoretical(), course.isPractical(), currentYearDB,
+                            Integer.parseInt(currentSemester)));
+                    LOG.info("Saved " + professor.getId() + " <-> " + disciplina.getId() + " for " + currentYearDB + "/" + currentSemester);
+                }
+            }
+        }
+
+        return "success";
+    }
 
     @GetMapping("/profs")
     public String profs(ModelMap modelMap) {
 
+        int currentYearDB = Integer.parseInt("20" + currentYear.substring(0, 2));
         List<ProfessorDisciplina> all = professorDisciplinaRepository.findAll();
         List<ProfessorDisciplina> result = all
                 .stream()
-                .sorted(Comparator.comparingInt(ProfessorDisciplina::getAno)
-                        .thenComparing(pd -> pd.getDisciplina().getSemestre())
-                        .thenComparing(pd -> pd.getDisciplina().getNome()))
+                .filter((professorDisciplina -> professorDisciplina.getAno() == currentYearDB))
+                .filter((professorDisciplina -> professorDisciplina.getSemestre() == Integer.parseInt(currentSemester)))
+                .sorted(Comparator.comparing(pd -> pd.getDisciplina().getNome()))
                 .collect(Collectors.toList());
 
         modelMap.put("result", result);

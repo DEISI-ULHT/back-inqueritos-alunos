@@ -34,7 +34,8 @@ public class ExportController {
     private RespostaRepository repository;
 
     @GetMapping("export")
-    public ResponseEntity<List<InqueritoResult>> export(@RequestParam("token") String tokenParam, @RequestParam("startId") Integer startId) {
+    public ResponseEntity<List<InqueritoResult>> export(@RequestParam("token") String tokenParam, @RequestParam("startId") Integer startId,
+                                                        @RequestParam("endId") Integer endId) {
 
         if (!token.equals(tokenParam)) {
             throw new RuntimeException("Invalid token");
@@ -44,7 +45,7 @@ public class ExportController {
         List<InqueritoResult> globalResult = new ArrayList<>();
 
         Map<String,List<Resposta>> respostasBySession = respostas.stream().
-                filter((r) -> r.getId() >= startId).
+                filter((r) -> r.getId() >= startId && r.getId() < endId).
                 collect(groupingBy(Resposta::getSession));
 
         Map<String,List<AggregatedResponse>> respostasByCourseId = new HashMap<>();
@@ -80,7 +81,8 @@ public class ExportController {
                     end = currentResposta.getAnsweredAt();
                 }
 
-                if (currentResposta.getConteudo() != null) {
+                if (currentResposta.getConteudo() != null ) {
+
                     switch (currentResposta.getPerguntaId()) {
                         case "0":  // qual o curso?
                             switch (currentResposta.getConteudo()) {
@@ -152,25 +154,39 @@ public class ExportController {
                             }
                             break;
                         case "7":
+//                            if (currentResposta.getId() >= 43402 &&  // durante este período, não foram preenchidos os profs
+//                                    currentResposta.getId() <= 48689) {
+//                                continue;
+//                            }
                             if (theoreticalTeacher == null) {
                                 theoreticalTeacher = new TeacherEvaluation(currentResposta.getProfessorId());
                                 theoreticalTeacher.setExplanations(Integer.parseInt(currentResposta.getConteudo()));
                             } else {
+                                System.out.println("(respostaId:7) practicalTeacher: " + currentResposta.getProfessorId() + "(id:" +
+                                        currentResposta.getId());
                                 practicalTeacher = new TeacherEvaluation(currentResposta.getProfessorId());
                                 practicalTeacher.setExplanations(Integer.parseInt(currentResposta.getConteudo()));
                             }
                             break;
                         case "8":
-                            if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId()) &&
+                            System.out.println("(respostaId:8) practicalTeacher: " + currentResposta.getProfessorId() + "(id:" +
+                                    currentResposta.getId());
+                            if (theoreticalTeacher.getTeacherId() != null &&
+                                    theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId()) &&
                                 theoreticalTeacher.getWellPrepared() == 0) {
                                 theoreticalTeacher.setWellPrepared(Integer.parseInt(currentResposta.getConteudo()));
-                            } else if (practicalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
+                            } else if (practicalTeacher != null && practicalTeacher.getTeacherId() != null &&
+                                    practicalTeacher.getTeacherId().equals(currentResposta.getProfessorId())) {
                                 practicalTeacher.setWellPrepared(Integer.parseInt(currentResposta.getConteudo()));
                             } else {
-                                throw new RuntimeException("Error! teacher is neither theoretical or practical!");
+                                throw new RuntimeException("Error! teacher is neither theoretical or practical! " +
+                                        "professorId:" + currentResposta.getProfessorId() + ";id:" +
+                                        currentResposta.getId());
                             }
                             break;
                         case "9":
+                            System.out.println("(respostaId:9) practicalTeacher: " + currentResposta.getProfessorId() + "(id:" +
+                                    currentResposta.getId());
                             if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId()) &&
                                 theoreticalTeacher.getAvailability() == 0) {
                                 theoreticalTeacher.setAvailability(Integer.parseInt(currentResposta.getConteudo()));
@@ -181,6 +197,8 @@ public class ExportController {
                             }
                             break;
                         case "10":
+                            System.out.println("(respostaId:10) practicalTeacher: " + currentResposta.getProfessorId() + "(id:" +
+                                    currentResposta.getId());
                             if (theoreticalTeacher.getTeacherId().equals(currentResposta.getProfessorId()) &&
                                     theoreticalTeacher.getMaterial() == 0) {
                                 theoreticalTeacher.setMaterial(Integer.parseInt(currentResposta.getConteudo()));

@@ -9,23 +9,23 @@
 <body>
     <div class="container">
         <h1>Admin</h1>
-        <form th:action="@{/admin/generateProfsDisc}" class="form-horizontal" method="post">
-            <div class="form-group">
-                <label for="yearOrigin">De ano:</label>
-                <input type="text" name="yearOrigin" id="yearOrigin">
-            </div>
-            <div class="form-group">
-                <label for="yearTarget">Para ano:</label>
-                <input type="text" name="yearTarget" id="yearTarget">
-            </div>
-            <div class="form-group">
-                <label for="semester">Semestre: (1 ou 2)</label>
-                <input type="text" name="semester" id="semester">
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Copiar">
-            </div>
-        </form>
+<!--        <form th:action="@{/admin/generateProfsDisc}" class="form-horizontal" method="post">-->
+<!--            <div class="form-group">-->
+<!--                <label for="yearOrigin">De ano:</label>-->
+<!--                <input type="text" name="yearOrigin" id="yearOrigin">-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label for="yearTarget">Para ano:</label>-->
+<!--                <input type="text" name="yearTarget" id="yearTarget">-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label for="semester">Semestre: (1 ou 2)</label>-->
+<!--                <input type="text" name="semester" id="semester">-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <input type="submit" value="Copiar">-->
+<!--            </div>-->
+<!--        </form>-->
         <form th:action="@{/admin/removeTestAnswers}" class="form-horizontal" method="post">
             <div class="form-group">
                 <input type="submit" value="Delete test answers">
@@ -47,8 +47,8 @@
                 <tr th:each="pd : ${result}">
                     <td th:text="${pd.getAno()}"></td>
                     <td th:text="${pd.getDisciplina().getSemestre()}"></td>
-                    <td th:text="${pd.getDisciplina().getNome() + ' (' + pd.getDisciplina().getAno() + ')'}"></td>
-                    <td th:text="${pd.getProfessor().getNome() + ' (' + pd.getProfessor().getId() + ')'}"></td>
+                    <td th:text="${pd.getDisciplina().getNome()}"></td>
+                    <td th:text="${pd.getProfessor().getNome()}"></td>
                     <td th:text="${pd.getRegente()}"></td>
                     <td th:text="${pd.getTeorico()}"></td>
                     <td th:text="${pd.getPratico()}"></td>
