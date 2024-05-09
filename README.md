@@ -6,7 +6,8 @@ Em dev, arranca no porto 8010 (ver inqueritos.properties)
 
 ## Preparação para um novo semestre (inquérito)
 
-* Atualizar ano/semestre no inqueritos.properties
+* Atualizar ano/semestre no inqueritos.properties (está na máquina do deisi em /opt/tomcat/conf)
+* Reiniciar tomcat
 * Aceder a /admin para sincronizar
 * Verificar em /admin/profs
 * Obter os links em /admin/disc
