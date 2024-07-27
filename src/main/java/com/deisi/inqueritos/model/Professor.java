@@ -1,6 +1,8 @@
 package com.deisi.inqueritos.model;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 
@@ -12,7 +14,8 @@ public class Professor {
     @Id
     private Long id;
     @Column(name = "id_lusofona", unique = true)
-    private String id_lusofona;
+    @JsonProperty("id_lusofona") // <<< the frontend is expecting this name, don't change
+    private String idLusofona;
     @Column(name = "nome")
     private String nome;
     @Column(name = "email", unique = false)
@@ -22,8 +25,8 @@ public class Professor {
     public Professor() {
     }
 
-    public Professor(String id_lusofona, String nome, String email) {
-        this.id_lusofona = id_lusofona;
+    public Professor(String idLusofona, String nome, String email) {
+        this.idLusofona = idLusofona;
         this.nome = nome;
         this.email = email;
     }
@@ -36,12 +39,12 @@ public class Professor {
         this.id = id;
     }
 
-    public String getId_lusofona() {
-        return id_lusofona;
+    public String getIdLusofona() {
+        return idLusofona;
     }
 
-    public void setId_lusofona(String id_lusofona) {
-        this.id_lusofona = id_lusofona;
+    public void setIdLusofona(String idLusofona) {
+        this.idLusofona = idLusofona;
     }
 
     public String getNome() {
@@ -64,7 +67,7 @@ public class Professor {
     public String toString() {
         return "Professor{" +
                 "id=" + id +
-                ", id_lusofona=" + id_lusofona +
+                ", id_lusofona=" + idLusofona +
                 ", nome='" + nome + '\'' +
                 ", email='" + email + '\'' +
                 '}';

@@ -12,3 +12,7 @@ Accept: application/json
 ###
 GET http://localhost:8010/api/export?token=9810692789&startId=50093&endId=59943
 Accept: application/json
+
+###
+GET http://localhost:8010/api/disciplina/exportacao?disciplina=CJODBY
+Accept: application/json
