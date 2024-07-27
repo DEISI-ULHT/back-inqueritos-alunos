@@ -23,6 +23,12 @@ public class RespostaController {
     @PostMapping("submit")
     public ResponseEntity<?> submitAnswer(@RequestBody RespostaDTO dto, HttpServletRequest request) {
         try {
+
+            if (Integer.parseInt(dto.getPerguntaId()) >= 7 && (
+                    dto.getProfessorId() == null || dto.getProfessorId().isEmpty())) {
+                return new ResponseEntity("professorId is empty", HttpStatus.NOT_ACCEPTABLE);
+            }
+
             service.saveDTO(dto);
             return new ResponseEntity(HttpStatus.ACCEPTED);
         } catch (RuntimeException exception) {

@@ -10,13 +10,17 @@ public class Resposta {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(nullable = false)
     private String disciplinaId;
 
+    @Column(nullable = false)
     private String perguntaId;
     private String professorId;
     @Column(length=8000)
     private String conteudo;
+    @Column(nullable = false)
     private String session;
+    @Column(nullable = false)
     private Date answeredAt;
 
 
