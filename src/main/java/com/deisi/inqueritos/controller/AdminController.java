@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.nio.file.AccessDeniedException;
 import java.time.Year;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,6 +27,9 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+
+    @Value("${admin.token}")
+    private String token;
 
     Logger LOG = LoggerFactory.getLogger(AdminController.class);
 
@@ -134,7 +138,12 @@ public class AdminController {
     }
 
     @GetMapping("/profs")
-    public String profs(ModelMap modelMap) {
+    public String profs(ModelMap modelMap,
+                        @RequestParam(name = "token") String tokenParam) {
+
+        if (!token.equals(tokenParam)) {
+            throw new RuntimeException("Acesso não autorizado");
+        }
 
         int currentYearDB = Integer.parseInt("20" + currentYear.substring(0, 2));
         List<ProfessorDisciplina> all = professorDisciplinaRepository.findAll();
@@ -150,7 +159,12 @@ public class AdminController {
     }
 
     @GetMapping("/disc")
-    public String disc(ModelMap modelMap) {
+    public String disc(ModelMap modelMap,
+                       @RequestParam(name = "token") String tokenParam) {
+
+        if (!token.equals(tokenParam)) {
+            throw new RuntimeException("Acesso não autorizado");
+        }
 
         // when the current survey started
         Calendar startSurvey = Calendar.getInstance();

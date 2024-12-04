@@ -1,6 +1,7 @@
 package com.deisi.inqueritos.services;
 
 import com.deisi.inqueritos.apiclient.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,6 +14,9 @@ import java.util.List;
 @Service
 public class APIClientService {
 
+    @Value("${dsddeisi.api.token}")
+    private String token;
+
     public List<Course> fetchCourses(String year) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -20,7 +24,7 @@ public class APIClientService {
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
         ResponseEntity<Courses> response = restTemplate.exchange(
-                "https://dsdeisi.pythonanywhere.com/inqueritos-courses/" + year,
+                "https://dsdeisi.pythonanywhere.com/inqueritos-courses/" + year + "/" + token,
                 HttpMethod.GET,
                 entity,
                 Courses.class
@@ -37,7 +41,7 @@ public class APIClientService {
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
         ResponseEntity<Teachers> response = restTemplate.exchange(
-                "https://dsdeisi.pythonanywhere.com/inqueritos-teachers/" + year,
+                "https://dsdeisi.pythonanywhere.com/inqueritos-teachers/" + year + "/" + token,
                 HttpMethod.GET,
                 entity,
                 Teachers.class
@@ -54,7 +58,7 @@ public class APIClientService {
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
         ResponseEntity<TeacherCoursesList> response = restTemplate.exchange(
-                "https://dsdeisi.pythonanywhere.com/inqueritos-teacher-courses/" + year + "/" + semester,
+                "https://dsdeisi.pythonanywhere.com/inqueritos-teacher-courses/" + year + "/" + semester  + "/" + token,
                 HttpMethod.GET,
                 entity,
                 TeacherCoursesList.class

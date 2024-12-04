@@ -8,15 +8,9 @@ Em dev, arranca no porto 8010 (ver inqueritos.properties)
 
 * Atualizar ano/semestre no inqueritos.properties (está na máquina do deisi em /opt/tomcat/conf)
 * Reiniciar tomcat
-* Aceder a /admin para sincronizar
-* Verificar em /admin/profs
-* Obter os links em /admin/disc
-
-(Obsoleto)
-* Inserir professores novos diretamente na BD
-* Usar a página localhost:8010/admin/profs para:
-  * Copiar primeiro as associações do ano anterior
-  * Corrigir manualmente na BD as que mudaram
+* Aceder a /admin/ para sincronizar
+* Verificar em /admin/profs?token=xxx
+* Obter os links em /admin/disc?token=xxx
 
 ### Endpoints da aplicação DSDeisi
 * disciplinas em funcionamento num ano lectivo
@@ -30,7 +24,7 @@ Em dev, arranca no porto 8010 (ver inqueritos.properties)
    * variáveis da rota: ano lectivo (e.g., 24-25), password
 
  ### Gerador de Qrcodes
-* A página https://deisi.ulusofona.pt/inqueritos/admin/disc disponibiliza os nomes das disciplinas e links para inquéritos
+* A página https://deisi.ulusofona.pt/inqueritos/admin/disc?token=xxx disponibiliza os nomes das disciplinas e links para inquéritos
 * Com base na informação dessa página, são criados, para cada disciplina, um QRcode para o respectivo link do inquérito
 * código: https://github.com/DEISI-ULHT/back-inqueritos-alunos/blob/master/inqueritos-geradorQRcodes.ipynb
 

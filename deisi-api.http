@@ -1,18 +1,22 @@
-GET https://dsdeisi.pythonanywhere.com/inqueritos-courses/23-24
+GET https://dsdeisi.pythonanywhere.com/inqueritos-courses/24-25/xxx
 Accept: application/json
 
 ###
-GET https://dsdeisi.pythonanywhere.com/inqueritos-teachers/23-24
+GET https://dsdeisi.pythonanywhere.com/inqueritos-teachers/23-24/xxx
 Accept: application/json
 
 ###
-GET https://dsdeisi.pythonanywhere.com/inqueritos-teacher-courses/23-24/1
+GET https://dsdeisi.pythonanywhere.com/inqueritos-teacher-courses/23-24/1/xxx
 Accept: application/json
 
 ###
-GET http://localhost:8010/api/export?token=9810692789&startId=50093&endId=59943
+GET http://localhost:8010/api/export?token=xxx&startId=74044&endId=84623
 Accept: application/json
 
 ###
 GET http://localhost:8010/api/disciplina/exportacao?disciplina=CJODBY
+Accept: application/json
+
+###
+GET https://deisi.ulusofona.pt/inqueritos/api/export?token=xxxx&startId=74044&endId=84623
 Accept: application/json
