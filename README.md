@@ -20,13 +20,13 @@ Em dev, arranca no porto 8010 (ver inqueritos.properties)
 
 ### Endpoints da aplicação DSDeisi
 * disciplinas em funcionamento num ano lectivo
-   * https://dsdeisi.pythonanywhere.com/inqueritos-courses/24-25
+   * https://dsdeisi.pythonanywhere.com/inqueritos-courses/24-25/pwd
    * parâmetro: ano lectivo 24-25
 * docentes das disciplinas em funcionamento num determinado semestre de um ano lectivo
-   * https://dsdeisi.pythonanywhere.com/inqueritos-teacher-courses/24-25/1
+   * https://dsdeisi.pythonanywhere.com/inqueritos-teacher-courses/24-25/1/pwd
    * parâmetro: ano lectivo (24-25)
 * docentes que lecionam num determinado ano lectivo, fornecendo info do nome, ID da base de dados e numero de docente
-   * https://dsdeisi.pythonanywhere.com/inqueritos-teachers/24-25
+   * https://dsdeisi.pythonanywhere.com/inqueritos-teachers/24-25/pwd
    * parâmetro: ano lectivo (24-25)
 
  ### Gerador de Qrcodes
