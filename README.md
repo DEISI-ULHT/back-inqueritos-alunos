@@ -21,13 +21,13 @@ Em dev, arranca no porto 8010 (ver inqueritos.properties)
 ### Endpoints da aplicação DSDeisi
 * disciplinas em funcionamento num ano lectivo
    * https://dsdeisi.pythonanywhere.com/inqueritos-courses/24-25/pwd
-   * parâmetro: ano lectivo 24-25
+   * variáveis da rota: ano lectivo (e.g., 24-25), password
 * docentes das disciplinas em funcionamento num determinado semestre de um ano lectivo
    * https://dsdeisi.pythonanywhere.com/inqueritos-teacher-courses/24-25/1/pwd
-   * parâmetro: ano lectivo (24-25)
+   * variáveis da rota: ano lectivo (e.g., 24-25), semestre (e.g., 1), password
 * docentes que lecionam num determinado ano lectivo, fornecendo info do nome, ID da base de dados e numero de docente
    * https://dsdeisi.pythonanywhere.com/inqueritos-teachers/24-25/pwd
-   * parâmetro: ano lectivo (24-25)
+   * variáveis da rota: ano lectivo (e.g., 24-25), password
 
  ### Gerador de Qrcodes
 * A página https://deisi.ulusofona.pt/inqueritos/admin/disc disponibiliza os nomes das disciplinas e links para inquéritos
