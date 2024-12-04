@@ -29,5 +29,8 @@ Em dev, arranca no porto 8010 (ver inqueritos.properties)
    * https://dsdeisi.pythonanywhere.com/inqueritos-teachers/24-25
    * parâmetro: ano lectivo (24-25)
 
- ### Qrcodes
-* Gerador de qrcodes com link para o inquérito de cada disciplina
+ ### Gerador de Qrcodes
+* A página https://deisi.ulusofona.pt/inqueritos/admin/disc disponibiliza os nomes das disciplinas e links para inquéritos
+* Com base na informação dessa página, são criados, para cada disciplina, um QRcode para o respectivo link do inquérito
+* código: https://github.com/DEISI-ULHT/back-inqueritos-alunos/blob/master/inqueritos-geradorQRcodes.ipynb
+
