@@ -221,7 +221,7 @@ public class AdminController {
             professorDisciplinaRepository.save(newPD);
         }
 
-        return "redirect:/admin/profs";
+        return "redirect:/admin/profs?token=" + token;
     }
 
     @PostMapping("/removeTestAnswers")
@@ -239,6 +239,6 @@ public class AdminController {
             respostaRepository.deleteBySession(s);
         }
 
-        return "redirect:/admin/profs";
+        return "redirect:/admin/profs?token=" + token;
     }
 }
