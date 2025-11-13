@@ -177,11 +177,9 @@ public class AdminController {
             throw new IllegalArgumentException("Invalid semester: " + currentSemester);
         }
 
-        List<Disciplina> all = disciplinaRepository.getDisciplinasBySemestreOrderByNome(currentSemester);
-        List<Disciplina> result = all.stream()
-//                        .filter((d) -> d.getAno() != 4)  // licenciaturas
-//                        .filter((d) -> d.getAno() >= 4)  // mestrados
-                        .collect(Collectors.toList());
+        int currentYearDB = Integer.parseInt("20" + this.currentYear.substring(0, 2));
+        List<Disciplina> result = disciplinaRepository.findDisciplinasWithProfessorsByAnoAndSemestre(
+                currentYearDB, Integer.parseInt(currentSemester));
 
         for (Disciplina disciplina : result) {
             List<Resposta> respostas = respostaRepository.getByDisciplinaIdAndAnsweredAtAfter(disciplina.getId(), startSurvey.getTime());

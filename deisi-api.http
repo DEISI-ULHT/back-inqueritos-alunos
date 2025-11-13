@@ -1,12 +1,12 @@
-GET https://dsdeisi.pythonanywhere.com/inqueritos-courses/24-25/xxx
+GET https://dsdeisi.pythonanywhere.com/inqueritos-courses/25-26/{{pwd}}
 Accept: application/json
 
 ###
-GET https://dsdeisi.pythonanywhere.com/inqueritos-teachers/23-24/xxx
+GET https://dsdeisi.pythonanywhere.com/inqueritos-teachers/25-26/{{pwd}}
 Accept: application/json
 
 ###
-GET https://dsdeisi.pythonanywhere.com/inqueritos-teacher-courses/23-24/1/xxx
+GET https://dsdeisi.pythonanywhere.com/inqueritos-teacher-courses/25-26/1/{{pwd}}
 Accept: application/json
 
 ###
